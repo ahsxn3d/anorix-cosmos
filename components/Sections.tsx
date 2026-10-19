@@ -1,18 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PLANETS } from "@/lib/planets";
 import { Arrow } from "./kit/ui";
+const links = [["Explore", "#explore"], ["Planets", "#planets"], ["Scale", "#scale"], ["Features", "#features"]];
 export function Nav() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false); window.addEventListener("keydown", k); document.documentElement.style.overflow = "hidden"; return () => { window.removeEventListener("keydown", k); document.documentElement.style.overflow = ""; }; }, [open]);
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <div className="wrap flex items-center justify-between pt-5">
-        <a href="#explore" className="flex items-center gap-2.5 rounded-full bg-void/60 py-2 pl-2 pr-4 text-star ring-1 ring-star/10 backdrop-blur-md" aria-label="Anorix Cosmos home">
+      <div className="wrap relative z-10 flex items-center justify-between pt-5">
+        <a href="#explore" onClick={() => setOpen(false)} className="flex items-center gap-2.5 rounded-full bg-void/60 py-2 pl-2 pr-4 text-star ring-1 ring-star/10 backdrop-blur-md" aria-label="Anorix Cosmos home">
           <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true"><circle cx="16" cy="16" r="5" fill="#ffb347" /><ellipse cx="16" cy="16" rx="13" ry="5" fill="none" stroke="#e8ecf5" strokeOpacity=".6" transform="rotate(-20 16 16)" /><circle cx="27" cy="12" r="2" fill="#5b8fd6" /></svg>
           <span className="display text-[17px]">Anorix Cosmos</span>
         </a>
         <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full bg-void/60 p-1.5 text-[14px] text-star ring-1 ring-star/10 backdrop-blur-md md:flex">
-          {[["Explore", "#explore"], ["Planets", "#planets"], ["Scale", "#scale"], ["Features", "#features"]].map(([l, h]) => <a key={l} href={h} className="rounded-full px-4 py-2 transition-colors hover:bg-star/10">{l}</a>)}
+          {links.map(([l, h]) => <a key={l} href={h} className="rounded-full px-4 py-2 transition-colors hover:bg-star/10">{l}</a>)}
           <a href="https://github.com/ahsxn3d/anorix-cosmos" className="ml-1 rounded-full bg-sun px-4 py-2 font-medium text-void transition-colors hover:bg-star">GitHub</a>
+        </nav>
+        <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="m-menu" aria-label={open ? "Close menu" : "Open menu"} className="grid h-12 w-12 place-items-center rounded-full bg-void/60 text-star ring-1 ring-star/10 backdrop-blur-md md:hidden">
+          <span className="relative block h-3 w-5" aria-hidden="true"><span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${open ? "top-1.5 rotate-45" : "top-0"}`} /><span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${open ? "top-1.5 -rotate-45" : "top-3"}`} /></span>
+        </button>
+      </div>
+      <div id="m-menu" className={`fixed inset-0 bg-void/95 backdrop-blur-xl transition-opacity duration-300 motion-reduce:transition-none md:hidden ${open ? "opacity-100" : "pointer-events-none opacity-0"}`} aria-hidden={!open}>
+        <nav aria-label="Mobile" className="wrap flex h-full flex-col justify-center gap-2">
+          {links.map(([l, h], i) => <a key={l} href={h} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)} className={`display text-[44px] text-star transition-[opacity,transform] duration-500 ${open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`} style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}>{l}</a>)}
+          <a href="https://github.com/ahsxn3d/anorix-cosmos" tabIndex={open ? 0 : -1} className="btn mt-8 self-start bg-sun text-void">GitHub <Arrow /></a>
         </nav>
       </div>
     </header>
