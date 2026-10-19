@@ -33,7 +33,7 @@ export function Planets() {
             </li>
           ))}
         </ul>
-        <p className="mono mt-4 text-star/45">Source: NASA Planetary Fact Sheet. Moon counts as recognised by the IAU/JPL at time of writing.</p>
+        <p className="mono mt-4 text-star/45">Source: NASA Planetary Fact Sheet. Moon counts from NASA, as of August 2026.</p>
       </div>
     </section>
   );

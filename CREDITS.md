@@ -13,7 +13,7 @@ no other changes.
 ## Data
 Planet radii, distances, day/year lengths, axial tilts and moon counts: **NASA Planetary Fact Sheet**
 (nssdc.gsfc.nasa.gov/planetary/factsheet), NASA Space Science Data Coordinated Archive. US Government work, public domain.
-Values are rounded; moon counts change as new moons are confirmed.
+Values are rounded; moon counts from NASA science.nasa.gov (as of August 2026) and change as new moons are confirmed.
 
 ## Fonts (SIL OFL 1.1, self-hosted)
 Space Grotesk, Inter, JetBrains Mono.

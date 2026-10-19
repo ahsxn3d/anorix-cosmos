@@ -45,7 +45,10 @@ function System({ ctl, onPick, onReady }: { ctl: MutableRefObject<Ctl>; onPick: 
     let target = new THREE.Vector3(), dist = d.dist;
     if (c.focus && refs.current[c.focus]) { refs.current[c.focus].getWorldPosition(target); const p = PLANETS.find((q) => q.id === c.focus)!; dist = R(p.r) * (p.id === "saturn" ? 9 : 6.5); }
     look.current.lerp(target, k);
-    const want = new THREE.Vector3(Math.sin(d.yaw) * Math.cos(d.pitch), Math.sin(d.pitch), Math.cos(d.yaw) * Math.cos(d.pitch)).multiplyScalar(dist).add(look.current);
+    // focused: sit on the sunlit side (sun at origin), 0.6 rad off-axis so the terminator shows; drag still adds yaw/pitch
+    const sunYaw = c.focus ? Math.atan2(-target.x, -target.z) + 0.6 : 0;
+    const yaw = d.yaw + sunYaw, pitch = c.focus ? Math.max(-1.2, Math.min(1.2, d.pitch * 0.5 + 0.18)) : d.pitch;
+    const want = new THREE.Vector3(Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), Math.cos(yaw) * Math.cos(pitch)).multiplyScalar(dist).add(look.current);
     camPos.current.lerp(want, k); camera.position.copy(camPos.current); camera.lookAt(look.current);
     if (!ready.current) { ready.current = true; requestAnimationFrame(() => onReady()); }
   });

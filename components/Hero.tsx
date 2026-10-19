@@ -35,7 +35,7 @@ export default function Hero() {
             {speeds.map(([l], i) => <button key={l} onClick={() => setSpeed(i)} aria-pressed={sp === i} className={`mono rounded-full border px-3 py-1.5 transition-colors ${sp === i ? "border-sun bg-sun text-void" : "border-star/20 text-star/75 hover:border-star/60"}`}>{l}</button>)}
             <span className="mono ml-auto hidden text-star/45 md:block">Sizes and distances compressed to fit</span>
           </div>
-          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:px-0" role="tablist" aria-label="Planets">
+          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:px-0 [mask-image:linear-gradient(90deg,#000_88%,transparent)] xl:[mask-image:none]" role="tablist" aria-label="Planets">
             <button role="tab" aria-selected={!focus} onClick={() => pick(null)} className={`chip ${!focus ? "chip-on" : ""}`}><span className="h-2.5 w-2.5 rounded-full bg-sun" />System</button>
             {PLANETS.map((p) => <button key={p.id} role="tab" aria-selected={focus === p.id} onClick={() => pick(p.id)} className={`chip ${focus === p.id ? "chip-on" : ""}`}><span className="h-2.5 w-2.5 rounded-full" style={{ background: p.color }} />{p.name}</button>)}
           </div>
